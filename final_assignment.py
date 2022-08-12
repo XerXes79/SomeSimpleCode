@@ -15,9 +15,9 @@ def end_program(n):
     end_count = n.count("end")
     back_count = n.count("back")
     if end_count >= 1:
+        print(colored("End Detected!",'red',attrs=['bold']))
         final_answer = input(colored("do you wish to end the programm?[yes/no]","red"))
         if final_answer.lower() == 'yes':
-            print(colored("End Detected!",'red',attrs=['bold']))
             exit(colored("exiting ...",'green'))     
         else:
             pass
