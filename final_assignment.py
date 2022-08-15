@@ -1,26 +1,23 @@
+from operator import indexOf, le
 import random
 import os
-from ssl import _create_default_https_context
+from secrets import choice
 from typing import Counter, Text 
 from termcolor import colored
 class NumberSevenError(Exception):
     pass
 
 
-#clearing screen to help maintaining a clean output
+
 def clear_screen():
     os.system('cls' if os.name=='nt' else 'clear')
-#to end the programm
+
 def end_program(n):
     end_count = n.count("end")
     back_count = n.count("back")
     if end_count >= 1:
         print(colored("End Detected!",'red',attrs=['bold']))
-        final_answer = input(colored("do you wish to end the programm?[yes/no]","red"))
-        if final_answer.lower() == 'yes':
-            exit(colored("exiting ...",'green'))     
-        else:
-            pass
+        exit(colored("exiting ...",'green'))
     elif back_count >= 1:
         main()
     
@@ -30,7 +27,7 @@ def end_program(n):
 class Error(Exception):
     pass
 
-#used in capital function
+
 class WrongWord(Error):
     pass
 
@@ -40,7 +37,7 @@ class final_exam:
 
     def draw_menu(self):
         """option menu from which the user will select"""
-        menu = """\n¸,ø¤º°`°º¤ø,¸¸,ø¤º°┌─────────── •✧✧• ───────────┐¸,ø¤º°`°º¤ø,¸¸,ø¤º°
+        menu = """¸,ø¤º°`°º¤ø,¸¸,ø¤º°┌─────────── •✧✧• ───────────┐¸,ø¤º°`°º¤ø,¸¸,ø¤º°
                               1-MIN/MAX
                               2-CAPITAL
                               3-COPYFILE
@@ -48,7 +45,7 @@ class final_exam:
                              5-FACTORIAL
                              6-WATER BILL
                             7-LOWER_UPPER
-                            8-WORD FINDER                                          
+                          8-FREEZEMAN FINDER                                          
                           9-CONVERT TO ASCII           
                          10-ORD-CHR CONVERTOR  
                     └─────────── •✧✧• ───────────┘
@@ -67,7 +64,6 @@ class final_exam:
                 fact_start += 1
             return answer
         def main():
-            #in the case of entering characters instead of numbers
             try:
                 fact_number = input("Please enter a number:\n")
                 end_program(fact_number.lower())
@@ -91,14 +87,12 @@ class final_exam:
                            50, "dfdfdf", 31, 48, 70,
                            55, 21, 34, 1, 4,
                            5, 16, 87, "end", 99]
-        backup_list = []
         for value in comparison_list:
             try:
                 int(value)
             except ValueError:
                 print(colored("""Data Coruption!
             Deleting corupted data ...""","red",attrs=['bold']))
-                backup_list.append(value)
                 comparison_list.remove(value)
         counter = 0
         while counter < len(comparison_list) - 1:
@@ -117,7 +111,6 @@ class final_exam:
         print("Maximum value is : {}".format(maximum_value))
 
     def capital(self):
-        '''capitalizes all characters in a string'''
         def splitter(string, split_character):
             index_counter = -1
             index_start = 0
@@ -175,11 +168,9 @@ class final_exam:
             if error_code == 1:
                 print(colored("""If you are getting Errors maybe its because you are not entering the destination correctly
             here is an correct example of file location ===>""",'blue'),colored(" C:\\Users\\Administrator\\Desktop\\NewTextDocument.txt",'red',attrs=['bold']))
-            elif error_code == 2:
-                print(colored("If you are sseing this it means that your destination is not showing a file!",'blue'))
-        
+
         def main():
-            file_destination = input("please enter destination of the file you want to copy:\n")
+            file_destination = input("please enter the file destination you want to copy:\n")
             end_program(file_destination.lower())
             try:
                 file_contents = ''
@@ -194,15 +185,12 @@ class final_exam:
             except FileNotFoundError:
                 help(1)
                 main()
-            except PermissionError:
-                help(2)
-                main()
 
         main()
 
-    def find_the_word(self):
+    def freezeman(self):
 
-        def word_finder(a="python language tutorials by freezeman.",word = "freezeman"):
+        def freezeman_finder(a="python language tutorials by freezeman."):
 
             def lower_case(a):
                 lower_cased_sentence = ""
@@ -214,37 +202,36 @@ class final_exam:
                 return lower_cased_sentence
 
             index_counter = 0
-            word_counter = 0
+            freezeman_counter = 0
             start_index = 0
             start_index_list = []
             length = int(len(a))
             while index_counter < length:
                 check_string = ""
-                if a[index_counter] in [word[0].lower(),word[0].upper()]:
+                if a[index_counter] in "fF":
                     start_index = index_counter
                     check_string += a[index_counter:index_counter + 9:]
-                    if lower_case(check_string) == word:
-                        word_counter += 1
+                    if lower_case(check_string) == 'freezeman':
+                        freezeman_counter += 1
                         start_index_list += [start_index]
                         index_counter += 9 - 1
                     else:
                         index_counter += 1
                 else:
                     index_counter += 1
-            if word_counter >= 1:
-                print("There are {} {} inside your sentence".format(word_counter,word))
-                print("{} starting indexes are:".format(word), start_index_list, ".")
+            if freezeman_counter >= 1:
+                print("There are {} freezmans inside your sentence".format(freezeman_counter))
+                print("freezemans starting indexes are:", start_index_list, ".")
             else:
-                print("no {} were found in your sentence".format(word))
+                print("no Freezemans were found in your sentence")
 
-        print(colored("Welocme to word finder ;)",'cyan'))
-        word = input(colored("please enter the word you want to count in your sentence.\n",'magenta'))
-        entery = input(colored("Please enter a sentence to find the {} inside.\n",'magenta'.format(word)))
+        print(colored("Welocme to Freezeman finder ;)",'cyan'))
+        entery = input(colored("Please enter a sentence to find the Freezemans inside.\n",'magenta'))
         end_program(entery.lower())
         if len(entery) >= 10:
-                word_finder(entery)
+            freezeman_finder(entery)
         else:
-            word_finder()
+            freezeman_finder()
 
     def lower_upper(self):
         def lower_upper_inner(n):
@@ -375,9 +362,11 @@ class final_exam:
         class TicTacToe:
             def __init__(self):
                 self.grid = {1:" 1",2:" 2",3:" 3",4:" 4",5:" 5",6:" 6",7:" 7",8:" 8",9:" 9"}
-                self.win_condition = ((1,2,3),(4,5,6),(7,8,9),(1,4,7),(2,5,8),(3,6,9),(1,5,9),(3,5,7))
+                self.win_condition = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
                 self.valid_moves = [1,2,3,4,5,6,7,8,9]
                 self.count = 0
+                self.player_one_moves = []
+                self.bot_moves = []
             
             def play_mode(self):
                 self.mode = ''
@@ -393,6 +382,26 @@ class final_exam:
                     multi_count = x.count('multi')
                     if n == '1' or single_count > 0:
                         self.mode = "SinglePlayer"
+                        while True:
+                            n1 = input(colored("""
+           ✘〇✘〇✘〇    ╔═══Please select a difficulty Mode═══╗     〇✘〇✘〇✘
+                        ║⥺ ❶ Easy                             ║
+                        ║⥺ ❷ Hard                             ║
+                        ╚═════════════════════════════════════╝\n""",'cyan'))
+                            end_program(n1.lower())
+                            easy_count = n1.count('easy')
+                            hard_count = n1.count('hard')
+                            if easy_count > 0 or n1 == '1':
+                                self.difficulty = 'easy' 
+                                break
+                            elif hard_count > 0 or n1 == '2':
+                                self.difficulty = 'hard'
+                                break
+                            else:
+                                clear_screen()
+                                print(colored('Only two options avilable and your is not one of them! ','red'))
+                                
+                            
                         break
                     elif n == '2' or multi_count > 0:
                         self.mode = "MultiPlayer"
@@ -420,10 +429,12 @@ class final_exam:
                         i = input("Please enter a block number from 1 to 9 :\n")
                         end_program(i.lower())
                         i = int(i)
+                        
                         if i not in self.valid_moves:
                             print(colored("The Block you have choosen is occupied!\nEnter Again!",'red',attrs=['bold']))
                             continue
                         else:
+                            self.player_one_moves.append(i) 
                             self.valid_moves.remove(i)
                             self.grid[i] = colored(" ✘",'red')
                             self.count += 1
@@ -460,8 +471,11 @@ class final_exam:
                     end_program(play_again.lower())
                     if play_again.lower() == 'y':
                         self.valid_moves = [1,2,3,4,5,6,7,8,9]
-                        self.grid = {1:"  ",2:"  ",3:"  ",4:"  ",5:"  ",6:"  ",7:"  ",8:"  ",9:"  "}
+                        self.grid = {1:" 1",2:" 2",3:" 3",4:" 4",5:" 5",6:" 6",7:" 7",8:" 8",9:" 9"}
+                        self.win_condition = [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]
                         self.count = 0
+                        self.bot_moves = []
+                        self.player_one_moves = []
                         self.run()
                     elif play_again.lower() == 'n':
                         print(colored("Bye Bye!",'green',attrs=['bold']))
@@ -469,29 +483,187 @@ class final_exam:
                     else:
                         print("Unknown answer!")
 
-
+            def wining_blocker(self):
+                win_possibility = []
+                for x in self.player_one_moves:
+                    for y in self.win_condition:
+                        if x in y:
+                            win_possibility.append(y)
+                for x in win_possibility:
+                        if x[0] in self.player_one_moves and x[1] in self.player_one_moves and x[2] in self.valid_moves:
+                            self.win_condition.remove(x)
+                            return x[2]
+                        elif x[0] in self.player_one_moves and x[2] in self.player_one_moves and x[1] in self.valid_moves:
+                            self.win_condition.remove(x)
+                            return x[1]
+                        elif x[1] in self.player_one_moves and x[2] in self.player_one_moves and x[0] in self.valid_moves:
+                            self.win_condition.remove(x)
+                            return x[0]
+                return 0
+                 
+                            
+                
+                    
+                                
+            def winning_play(self):
+                win_possibility = []
+                for x in self.win_condition:
+                    for y in self.bot_moves:
+                        if y in x:
+                            win_possibility.append(x)
+                for x in win_possibility:
+                    if x[0] in self.bot_moves and x[1] in self.bot_moves and x[2] in self.valid_moves:
+                        return x[2]
+                    elif x[0] in self.bot_moves and x[2] in self.bot_moves and x[1] in self.valid_moves:
+                        return x[1]
+                    elif x[2] in self.bot_moves and x[1] in self.bot_moves and x[0] in self.valid_moves:
+                        return x[0]
+                return 0
+                            
+                            
+                                
+                        
             def AI_player(self):
-                valid_moves = self.valid_moves
-                i = random.sample(valid_moves,1)
-                self.grid[i[0]] = colored("〇",'blue')
-                valid_moves.remove(i[0])
-                self.count += 1
-                self.win_check()
-                print("AI Player has choosen {} Block.".format(i))
+    
+                if self.difficulty == "easy":
+                    i = random.sample(self.valid_moves,1)
+                    self.grid[i[0]] = colored("〇",'blue')
+                    self.valid_moves.remove(i[0])
+                    self.count += 1
+                    self.win_check()
+                    print("AI Player has choosen {} Block.".format(i))
+                else:
+                    corner = (1,3,7,9)
+                    edges = (2,4,6,8)
+                    i = int(self.wining_blocker())
+                    i2 = int(self.winning_play())
+                    if i2 != 0:
+                        i2 = self.winning_play()
+                        self.grid[i2] = colored("〇",'blue')
+                        self.bot_moves.append(i2)
+                        self.valid_moves.remove(i2)
+                        self.count += 1
+                        self.win_check()
+                        print("AI Player has choosen {} Block.".format(i2))
+                    elif i != 0 :
+                        self.grid[i] = colored("〇",'blue')
+                        self.bot_moves.append(i)
+                        self.valid_moves.remove(i)
+                        self.count += 1
+                        self.win_check()
+                        print("AI Player has choosen {} Block.".format(i))
+                    
+                        
+                    elif self.player_one_moves[0] == 5 and len(self.valid_moves) == 8:
+                        i = random.sample(corner,1)
+                        self.bot_moves.append(i[0])
+                        self.grid[i[0]] = colored("〇",'blue')
+                        self.valid_moves.remove(i[0])
+                        self.count += 1
+                        self.win_check()
+                        print("AI Player has choosen {} Block.".format(i))
+                    elif self.player_one_moves[0] != 5 and len(self.valid_moves) == 8:
+                        i = 5
+                        self.grid[i] = colored("〇",'blue')
+                        self.bot_moves.append(i)
+                        self.valid_moves.remove(i)
+                        self.count += 1
+                        self.win_check()
+                        print("AI Player has choosen {} Block.".format(i))
+                    elif self.player_one_moves[0] == 5 and self.player_one_moves[1] in corner and len(self.valid_moves) == 6 :
+                        for i in corner:
+                            if i in self.valid_moves:
+                                self.grid[i] = colored("〇",'blue')
+                                self.bot_moves.append(i)
+                                self.valid_moves.remove(i)
+                                self.count += 1
+                                self.win_check()
+                                print("AI Player has choosen {} Block.".format(i))
+                                break   
+                    elif self.bot_moves[0] == 5:
+                        x = self.player_one_moves[0]
+                        y = self.player_one_moves[1]
+                        if x in corner and y in corner:
+                            for z in edges:
+                                if z in self.valid_moves:
+                                    self.grid[z] = colored("〇",'blue')
+                                    self.bot_moves.append(z)
+                                    self.valid_moves.remove(z)
+                                    self.count += 1
+                                    self.win_check()
+                                    print("AI Player has choosen {} Block.".format(z))
+                                    break
+                        elif (x,y) in [(2,7),(7,2),(3,4),(4,3),(2,4),(4,2)] and 1 in self.valid_moves:
+                            self.grid[1] = colored("〇",'blue')
+                            self.bot_moves.append(1)
+                            self.valid_moves.remove(1)
+                            self.count += 1
+                            self.win_check()
+                            print("AI Player has choosen {} Block.".format(9))
+                        elif (x,y) in [(7,6),(3,8),(8,3),(6,7),(6,8),(8,6)] and 9 in self.valid_moves:
+                            self.grid[9] = colored("〇",'blue')
+                            self.bot_moves.append(9)
+                            self.valid_moves.remove(9)
+                            self.count += 1
+                            self.win_check()
+                            print("AI Player has choosen {} Block.".format(9))
+                        elif (x,y) in [(6,1),(1,6),(2,9),(9,2),(2,6),(6,2)] and 3 in self.valid_moves:
+                            self.grid[3] = colored("〇",'blue')
+                            self.bot_moves.append(3)
+                            self.valid_moves.remove(3)
+                            self.count += 1
+                            self.win_check()
+                            print("AI Player has choosen {} Block.".format(3))
+                        elif (x,y) in [(4,9),(9,4),(8,1),(1,8),(4,8),(8,4)] and 7 in self.valid_moves:
+                            self.grid[7] = colored("〇",'blue')
+                            self.bot_moves.append(7)
+                            self.valid_moves.remove(7)
+                            self.count += 1
+                            self.win_check()
+                            print("AI Player has choosen {} Block.".format(7))
+                        else:
+                            for i in corner:
+                                if i in self.valid_moves:
+                                    self.grid[i] = colored("〇",'blue')
+                                    self.bot_moves.append(i)
+                                    self.valid_moves.remove(i)
+                                    self.count += 1
+                                    self.win_check()
+                                    print("AI Player has choosen {} Block.".format(i))
+                                    break
+                        
+                        
+                        
+                                     
+                                    
+                            
+                    
+                                
+                        
+                    
+                    
 
             def win_check(self):
                 counter = 0
                 for i in self.win_condition:
                     if self.grid[i[0]] == self.grid[i[1]] == self.grid[i[2]] == colored(" ✘",'red'):
+                        clear_screen()
+                        self.draw_grid()
                         print(colored("Player one wins!!",'magenta'))
                         self.replay()
                     if self.grid[i[0]] == self.grid[i[1]] == self.grid[i[2]] == colored("〇",'blue') and self.mode == "SinglePlayer":
+                        clear_screen()
+                        self.draw_grid()
                         print(colored("AI wins!!",'cyan'))
                         self.replay()
                     elif self.grid[i[0]] == self.grid[i[1]] == self.grid[i[2]] == colored("〇",'blue') and self.mode == "MultiPlayer":
+                        clear_screen()
+                        self.draw_grid()
                         print(colored("Player two wins!!",'green'))
                         self.replay()
-                    elif self.count == 9 and counter >= 7:
+                    elif self.count == 9 and counter >= len(self.win_condition)-1:
+                        clear_screen()
+                        self.draw_grid()
                         print(colored("DRAW!!!",'yellow'))
                         self.replay()
                     counter += 1
@@ -548,7 +720,7 @@ def main():
             app.tictactoe()
         elif i == '8':
             clear_screen()
-            app.find_the_word()
+            app.freezeman()
         elif i == '7':
             clear_screen()
             print(colored("This program converts lowercase letters to uppercase and uppercase to lowercase.",'magenta'))
